@@ -1,6 +1,6 @@
 # ethical-supply-chain-tycoon
 An interactive CSR business simulation game where you become a CEO, make ethical supply-chain decisions, manage crises, and balance People, Planet &amp; Profit.
-# 🌍 Ethical Supply Chain Tycoon
+#  Ethical Supply Chain Tycoon
 
 **Can you build a successful company without compromising ethics?**
 
@@ -10,11 +10,11 @@ Make strategic decisions, handle unexpected crises, manage your company's reputa
 
 **People. Planet. Profit.**
 
-## 🎮 Game Preview
+##  Game Preview
 
 Become a CEO, establish your company, and navigate a series of business decisions that test your leadership, ethics, and strategic thinking.
 
-## ✨ Features
+##  Features
 
 - **CEO Onboarding:** Enter your name, company name, and business type before starting.
 - **Animated Introduction:** An interactive briefing explains your role and game mechanics.
@@ -27,14 +27,14 @@ Become a CEO, establish your company, and navigate a series of business decision
 - **Auto-Save:** Resume your game using locally stored progress.
 - **Keyboard Controls:** Use 1, 2, or 3 to select options and Enter to continue.
 
-## 🛠️ Built With
+##  Built With
 
 - HTML5
 - CSS3
 - JavaScript
 - Browser Local Storage
 
-## 🚀 Getting Started
+##  Getting Started
 
 No installation, server, or account is required.
 
@@ -44,28 +44,28 @@ No installation, server, or account is required.
 4. Open it in Google Chrome, Microsoft Edge, or another modern browser.
 5. Enter your company details and start playing!
 
-## 🎯 Objective
+##  Objective
 
 Your goal is to build a sustainable and responsible business while maintaining a balance between:
 
 | Pillar | Focus |
 |---|---|
-| 👥 People | Employee welfare, human rights, and social responsibility |
-| 🌱 Planet | Environmental protection and sustainable practices |
-| 💰 Profit | Financial performance and long-term business growth |
+|  People | Employee welfare, human rights, and social responsibility |
+|  Planet | Environmental protection and sustainable practices |
+|  Profit | Financial performance and long-term business growth |
 
 Every decision has consequences. A choice that improves short-term profitability might negatively affect the environment or employee welfare.
 
 Can you find the right balance?
 
-## 🔒 Privacy
+##  Privacy
 
 - No account or sign-in required.
 - No player information is sent to an external server.
 - Game progress and Hall of Fame entries are stored locally in your browser.
 - Designed to work offline.
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 ethical-supply-chain-tycoon/
@@ -74,13 +74,13 @@ ethical-supply-chain-tycoon/
 └── README.md
 ```
 
-## 💡 Why This Project?
+##  Why This Project?
 
 This project explores how businesses can integrate Corporate Social Responsibility into everyday decision-making.
 
 It turns CSR concepts into an interactive experience, helping players understand that responsible business practices involve balancing ethical responsibilities, environmental sustainability, and financial success.
 
-## ⭐ Support
+##  Support
 
 If you enjoy the project, consider giving this repository a star ⭐ and sharing it with others!
 
