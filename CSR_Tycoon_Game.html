@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#F4F0E2" />
+<title>Ethical Supply Chain Tycoon</title>
+<style>
+  :root {
+    --coral: #F4BAA3;
+    --cream: #F4F0E2;
+    --sky: #A6C8E2;
+    --blue: #619DC6;
+    --ink: #1D3445;
+    --muted: #607485;
+    --paper: #FFFCF5;
+    --line: #D8D8CE;
+    --green: #4C8A70;
+    --amber: #B77A34;
+    --red: #B9584F;
+    --shadow: 0 18px 50px rgba(29,52,69,.09);
+    --display: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    --body: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink); font-family: var(--body);
+    background: var(--cream);
+    background-image: radial-gradient(rgba(97,157,198,.12) .8px, transparent .8px);
+    background-size: 18px 18px;
+  }
+  button, input { font: inherit; }
+  button { -webkit-tap-highlight-color: transparent; }
+  .shell { max-width: 1180px; margin: 0 auto; padding: 22px 22px 50px; }
+  header { display:flex; align-items:center; justify-content:space-between; gap:15px; padding:8px 0 18px; border-bottom:1px solid rgba(29,52,69,.13); }
+  .brand { display:flex; align-items:center; gap:11px; }
+  .brand-mark { width:43px; height:43px; display:grid; place-items:center; background:var(--coral); border:2px solid var(--ink); border-radius:13px 13px 13px 4px; font-size:23px; font-weight:950; box-shadow:4px 4px 0 var(--ink); }
+  .brand small { display:block; color:var(--muted); font-size:9px; font-weight:850; letter-spacing:.18em; text-transform:uppercase; margin-bottom:3px; }
+  .brand strong { font-size:13px; letter-spacing:.09em; font-weight:950; }
+  .top-pill { border:1px solid rgba(29,52,69,.24); background:rgba(255,252,245,.72); padding:9px 13px; border-radius:999px; color:var(--ink); font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:900; }
+  .hero { display:flex; justify-content:space-between; align-items:flex-end; gap:20px; padding:36px 0 20px; }
+  .eyebrow, .step-kicker { color:var(--blue); font-size:10px; font-weight:950; letter-spacing:.2em; text-transform:uppercase; }
+  h1, h2, h3, .display { font-family:var(--display); font-weight:400; text-transform:uppercase; }
+  h1 { font-size:clamp(42px,7vw,76px); line-height:.91; letter-spacing:.01em; margin:12px 0 13px; color:var(--ink); }
+  h1 .highlight { color:var(--blue); text-shadow:2px 2px 0 var(--coral); }
+  .sub { max-width:650px; color:var(--muted); line-height:1.65; font-size:14px; margin:0; }
+  .round-chip { white-space:nowrap; background:var(--ink); color:var(--cream); padding:12px 15px; border-radius:5px 14px 5px 14px; font-size:10px; letter-spacing:.12em; font-weight:900; text-transform:uppercase; box-shadow:4px 4px 0 var(--coral); }
+  .dashboard { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:14px 0 19px; }
+  .meter { background:var(--paper); border:1.5px solid rgba(29,52,69,.2); border-radius:15px; padding:16px 17px 14px; box-shadow:4px 4px 0 rgba(29,52,69,.08); min-width:0; }
+  .meter:nth-child(1) { border-top:5px solid var(--coral); }
+  .meter:nth-child(2) { border-top:5px solid var(--blue); }
+  .meter:nth-child(3) { border-top:5px solid #7FA58F; }
+  .meter-top { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .meter-name { font-size:12px; font-weight:900; }
+  .meter-icon { font-size:16px; }
+  .meter-value { font-family:var(--display); font-size:36px; line-height:1; letter-spacing:.02em; }
+  .meter-note { color:var(--muted); margin-top:3px; font-size:10px; }
+  .track { height:9px; background:#E5E2D8; border-radius:999px; overflow:hidden; margin-top:12px; border:1px solid rgba(29,52,69,.08); }
+  .fill { height:100%; width:65%; border-radius:999px; transition:width .55s cubic-bezier(.2,.8,.2,1), background .3s; }
+  .zone { display:flex; justify-content:space-between; margin-top:6px; color:#82909A; font-size:8px; font-weight:800; letter-spacing:.06em; }
+  .panel { background:var(--paper); border:1.5px solid rgba(29,52,69,.2); border-radius:18px; padding:clamp(18px,3vw,30px); box-shadow:var(--shadow); }
+  .start-panel { display:grid; grid-template-columns:1.08fr .92fr; align-items:center; gap:28px; overflow:hidden; }
+  .profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 12px; }
+  .profile-grid .wide { grid-column:1 / -1; }
+  .profile-note { margin:10px 0 0; color:var(--muted); font-size:10px; line-height:1.5; }
+  .company-stamp { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin:0 0 13px; }
+  .company-stamp span { background:var(--cream); border:1px solid rgba(29,52,69,.17); border-radius:999px; padding:6px 9px; color:var(--muted); font-size:9px; font-weight:900; letter-spacing:.04em; }
+  .company-stamp strong { color:var(--ink); }
+  .transition-screen { min-height:430px; display:grid; place-items:center; overflow:hidden; position:relative; background:var(--ink); color:var(--cream); border:2px solid var(--ink); box-shadow:8px 8px 0 var(--coral); }
+  .loading-content { width:min(620px,100%); padding:44px 26px; text-align:center; position:relative; z-index:1; }
+  .loading-orbit { width:120px; height:120px; border:1px dashed rgba(244,240,226,.46); border-radius:50%; margin:0 auto 27px; display:grid; place-items:center; position:relative; animation:spin 12s linear infinite; }
+  .loading-orbit:before,.loading-orbit:after { content:""; position:absolute; border-radius:50%; border:1px solid rgba(166,200,226,.35); }
+  .loading-orbit:before { inset:13px; }.loading-orbit:after { inset:28px; }
+  .loading-core { width:58px; height:58px; border-radius:18px 18px 18px 5px; display:grid; place-items:center; background:var(--coral); color:var(--ink); border:2px solid var(--cream); font-size:31px; font-weight:900; animation:floaty 2s ease-in-out infinite; }
+  .loading-content .step-kicker { color:var(--sky); }
+  .loading-content h2 { color:var(--cream); font-size:clamp(32px,5vw,49px); margin:13px 0 10px; }
+  .loading-content p { color:rgba(244,240,226,.72); max-width:480px; margin:0 auto; font-size:13px; line-height:1.65; }
+  .loading-track { height:11px; background:rgba(244,240,226,.17); border:1px solid rgba(244,240,226,.2); border-radius:99px; overflow:hidden; margin:29px auto 10px; max-width:430px; }
+  .loading-fill { width:0%; height:100%; border-radius:99px; background:var(--coral); transition:width .12s linear; }
+  .loading-bottom { display:flex; justify-content:space-between; max-width:430px; margin:0 auto; color:rgba(244,240,226,.62); font-size:9px; font-weight:900; letter-spacing:.13em; text-transform:uppercase; }
+  .loading-percent { color:var(--cream); font-variant-numeric:tabular-nums; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  @keyframes floaty { 0%,100% { transform:translateY(0) rotate(-5deg); } 50% { transform:translateY(-7px) rotate(5deg); } }
+  .tutorial-shell { overflow:hidden; }
+  .tutorial-top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:22px; }
+  .tutorial-counter { color:var(--muted); font-size:10px; font-weight:950; letter-spacing:.12em; white-space:nowrap; }
+  .tutorial-progress { height:6px; background:#E5E2D8; border-radius:99px; overflow:hidden; margin-bottom:23px; }
+  .tutorial-progress > div { height:100%; width:25%; background:var(--blue); border-radius:99px; transition:width .35s ease; }
+  .tutorial-layout { display:grid; grid-template-columns:.85fr 1.15fr; gap:28px; align-items:center; min-height:290px; }
+  .tutorial-visual { min-height:255px; display:grid; place-items:center; position:relative; overflow:hidden; background:var(--sky); border:1.5px solid var(--ink); border-radius:15px; box-shadow:6px 6px 0 var(--ink); }
+  .tutorial-visual:before,.tutorial-visual:after { content:""; position:absolute; border:1px dashed rgba(29,52,69,.42); border-radius:50%; }
+  .tutorial-visual:before { width:220px; height:220px; }.tutorial-visual:after { width:160px; height:160px; }
+  .tutorial-symbol { z-index:1; font-size:75px; filter:drop-shadow(4px 5px 0 rgba(29,52,69,.16)); animation:floaty 2.4s ease-in-out infinite; }
+  .tutorial-visual-label { position:absolute; z-index:2; bottom:14px; right:14px; font-family:var(--display); font-size:22px; line-height:.95; text-align:right; }
+  .tutorial-copy { animation:slideIn .35s cubic-bezier(.2,.8,.2,1); }
+  .tutorial-copy h2 { font-size:clamp(31px,4.5vw,48px); }
+  .tutorial-copy p { color:var(--muted); font-size:13px; line-height:1.7; }
+  .tutorial-points { display:grid; gap:9px; margin-top:17px; }
+  .tutorial-point { display:flex; align-items:flex-start; gap:10px; color:var(--ink); font-size:11px; line-height:1.5; }
+  .tutorial-point b { display:grid; place-items:center; flex:0 0 23px; width:23px; height:23px; border-radius:7px; background:var(--coral); border:1px solid var(--ink); }
+  .tutorial-actions { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:25px; padding-top:17px; border-top:1px solid rgba(29,52,69,.13); }
+  .tutorial-actions .right-actions { display:flex; gap:9px; }
+  .tutorial-actions button { min-width:115px; }
+  @keyframes slideIn { from { opacity:0; transform:translateX(15px); } to { opacity:1; transform:translateX(0); } }
+  .step-kicker { color:var(--blue); }
+  h2 { font-size:clamp(26px,4vw,40px); line-height:.98; letter-spacing:.01em; margin:10px 0 12px; }
+  .scenario { color:var(--muted); font-size:14px; line-height:1.65; max-width:820px; margin:0 0 20px; }
+  .name-label { display:block; font-size:10px; font-weight:950; letter-spacing:.14em; text-transform:uppercase; margin:17px 0 7px; }
+  input { width:100%; border:1.5px solid rgba(29,52,69,.28); border-radius:10px; padding:13px 14px; outline:none; color:var(--ink); background:#fffef9; }
+  input:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(97,157,198,.18); }
+  .select-product { display:flex; flex-wrap:wrap; gap:8px; margin:9px 0 18px; }
+  .product { border:1.5px solid rgba(29,52,69,.22); background:var(--cream); color:var(--ink); border-radius:9px; padding:9px 11px; font-size:11px; font-weight:850; cursor:pointer; transition:.18s; }
+  .product:hover { transform:translateY(-2px); }
+  .product.active { border-color:var(--ink); background:var(--sky); box-shadow:3px 3px 0 var(--ink); }
+  .primary, .secondary { border:1.5px solid var(--ink); border-radius:9px; padding:12px 17px; font-weight:950; letter-spacing:.02em; cursor:pointer; transition:transform .16s, box-shadow .16s, filter .16s; }
+  .primary { color:var(--ink); background:var(--coral); box-shadow:4px 4px 0 var(--ink); }
+  .secondary { color:var(--cream); background:var(--ink); box-shadow:4px 4px 0 var(--blue); }
+  .primary:hover, .secondary:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--ink); }
+  button:disabled { opacity:.48; cursor:not-allowed; transform:none!important; box-shadow:none!important; }
+  button:focus-visible { outline:3px solid var(--blue); outline-offset:3px; }
+  .start-art { min-height:315px; border:1.5px solid var(--ink); border-radius:16px; position:relative; overflow:hidden; display:grid; place-items:center; background:var(--sky); box-shadow:7px 7px 0 var(--ink); }
+  .start-art:before { content:""; position:absolute; width:320px; height:320px; border:1.5px dashed rgba(29,52,69,.45); border-radius:50%; }
+  .start-art:after { content:""; position:absolute; width:220px; height:220px; border:1.5px solid rgba(29,52,69,.28); border-radius:50%; }
+  .planet { z-index:1; width:145px; height:145px; border:2px solid var(--ink); border-radius:50%; display:grid; place-items:center; background:var(--coral); color:var(--ink); font-family:var(--display); font-size:65px; box-shadow:8px 8px 0 var(--ink); transform:rotate(-9deg); }
+  .float { position:absolute; z-index:2; background:var(--cream); border:1.5px solid var(--ink); padding:8px 10px; border-radius:6px; color:var(--ink); font-size:9px; font-weight:950; letter-spacing:.1em; box-shadow:3px 3px 0 var(--ink); }
+  .f1 { top:22px; left:17px; transform:rotate(-5deg); }.f2 { right:16px; top:62px; transform:rotate(4deg); }.f3 { bottom:25px; left:26px; transform:rotate(3deg); }
+  .art-caption { position:absolute; right:16px; bottom:19px; font-family:var(--display); font-size:22px; text-transform:uppercase; text-align:right; line-height:.95; z-index:2; }
+  .progress-wrap { display:flex; align-items:center; gap:13px; margin:22px 0 12px; }
+  .progress { display:flex; gap:5px; flex:1; }
+  .dot { height:7px; flex:1; border-radius:99px; background:#DDDCD3; transition:background .25s; }
+  .dot.done { background:var(--blue); }
+  .progress-label { color:var(--muted); font-size:10px; font-weight:950; letter-spacing:.1em; white-space:nowrap; }
+  .round-meta { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }
+  .round-type { background:var(--coral); color:var(--ink); border:1px solid var(--ink); padding:6px 9px; font-size:9px; font-weight:950; letter-spacing:.1em; border-radius:5px; }
+  .round-type.twist { background:var(--blue); }
+  .stakeholders { display:flex; flex-wrap:wrap; gap:6px; margin:-5px 0 18px; }
+  .stakeholder { background:var(--cream); border:1px solid rgba(29,52,69,.14); color:var(--muted); border-radius:999px; padding:5px 8px; font-size:9px; font-weight:850; }
+  .choices { display:grid; grid-template-columns:repeat(3,1fr); gap:11px; }
+  .choice { position:relative; display:flex; flex-direction:column; align-items:flex-start; text-align:left; width:100%; min-height:228px; border:1.5px solid rgba(29,52,69,.24); border-radius:13px; padding:15px; background:#FBF8EE; color:var(--ink); cursor:pointer; transition:transform .18s, border .18s, box-shadow .18s, background .18s; }
+  .choice:nth-child(2) { background:#F2F7F9; }
+  .choice:nth-child(3) { background:#FFF4EF; }
+  .choice:hover { transform:translateY(-3px); border-color:var(--blue); box-shadow:4px 5px 0 rgba(29,52,69,.15); }
+  .choice.chosen { border:2px solid var(--ink); box-shadow:4px 5px 0 var(--coral); background:#F2F7F9; }
+  .choice-no { font-family:var(--display); font-size:30px; color:rgba(29,52,69,.3); line-height:1; margin-bottom:7px; }
+  .choice-tag { display:inline-flex; border-radius:4px; padding:5px 7px; font-size:8px; letter-spacing:.09em; font-weight:950; text-transform:uppercase; margin-bottom:10px; background:var(--sky); color:var(--ink); }
+  .choice-tag.cost { background:#F3D5C8; }.choice-tag.smart { background:#C8DDCF; }.choice-tag.risk { background:#F0C5BD; }
+  .choice h3 { font-size:21px; line-height:.98; margin:0 0 8px; }
+  .choice p { color:var(--muted); font-size:11px; line-height:1.5; margin:0 0 13px; flex:1; }
+  .effects { display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; }
+  .effect { background:rgba(29,52,69,.07); border:1px solid rgba(29,52,69,.12); border-radius:5px; padding:5px 6px; color:var(--ink); font-size:9px; font-weight:950; }
+  .feedback { display:none; margin-top:15px; padding:14px 15px; border-radius:10px; background:#E6F0F3; border:1.5px solid var(--blue); color:var(--ink); font-size:12px; line-height:1.6; }
+  .feedback.show { display:block; animation:rise .28s ease; }
+  .feedback strong { font-weight:950; }
+  @keyframes rise { from {opacity:0; transform:translateY(5px)} to {opacity:1; transform:translateY(0)} }
+  .footer-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:19px; }
+  .hint { color:var(--muted); font-size:10px; line-height:1.5; }
+  .hidden { display:none!important; }
+  .final-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:20px 0; }
+  .final-stat { border:1.5px solid rgba(29,52,69,.22); border-radius:12px; padding:16px; background:var(--cream); text-align:center; }
+  .final-stat:nth-child(1) { background:#FFF0E8; }.final-stat:nth-child(2) { background:#EAF2F7; }.final-stat:nth-child(3) { background:#EDF3EA; }
+  .score-line { display:flex; align-items:center; justify-content:center; gap:9px; }
+  .final-stat strong { display:block; font-family:var(--display); font-size:48px; line-height:1; }
+  .score-mood { font-size:30px; line-height:1; filter:drop-shadow(2px 2px 0 rgba(29,52,69,.12)); }
+  .overall-score { display:flex; align-items:center; justify-content:space-between; gap:15px; border:1.5px solid var(--ink); border-radius:13px; padding:13px 16px; background:var(--sky); box-shadow:4px 4px 0 var(--ink); margin:16px 0; }
+  .overall-score .score-caption { font-size:9px; font-weight:950; letter-spacing:.14em; text-transform:uppercase; }
+  .overall-score .score-total { font-family:var(--display); font-size:34px; line-height:1; }
+  .overall-score .overall-mood { font-size:43px; line-height:1; }
+  .final-stat span { display:block; margin-top:7px; font-size:9px; font-weight:950; letter-spacing:.1em; }.final-stat .score-mood { margin-top:0; font-size:30px; line-height:1; letter-spacing:0; }
+  .report { border:1.5px solid rgba(29,52,69,.2); border-radius:12px; padding:16px; background:#FFFEFA; margin-top:14px; }
+  .report h3 { font-size:20px; margin:0 0 9px; }
+  .report-row { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; font-size:11px; padding:9px 0; border-bottom:1px solid rgba(29,52,69,.1); color:var(--muted); }
+  .report-row:last-child { border:0; }.report-row strong { color:var(--ink); text-align:right; max-width:58%; }
+  .verdict { display:inline-block; font-family:var(--display); font-size:25px; letter-spacing:.02em; margin:17px 0 7px; padding:9px 13px; border:1.5px solid var(--ink); box-shadow:4px 4px 0 var(--ink); transform:rotate(-1deg); }
+  .verdict.good { background:#C8DDCF; }.verdict.mid { background:var(--sky); }.verdict.bad { background:var(--coral); }
+  .final-extra { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:15px; }
+  .insight { background:var(--cream); border-radius:10px; padding:14px; border:1px solid rgba(29,52,69,.14); }
+  .insight strong { display:block; font-size:10px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:5px; }
+  .insight p { margin:0; color:var(--muted); font-size:11px; line-height:1.55; }
+  .badge-strip { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px; }
+  .achievement { background:var(--ink); color:var(--cream); padding:7px 9px; border-radius:5px; font-size:9px; font-weight:900; letter-spacing:.06em; }
+  .note { color:#82909A; font-size:9px; line-height:1.5; text-align:center; margin:22px auto 0; max-width:850px; }
+  .print-only { display:none; }
+  .resume-panel { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:17px; padding:13px 14px; border:1.5px solid var(--blue); border-radius:12px; background:#EAF2F7; }
+  .resume-panel strong { display:block; font-size:11px; letter-spacing:.04em; }
+  .resume-panel p { margin:4px 0 0; color:var(--muted); font-size:10px; line-height:1.4; }
+  .resume-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+  .resume-actions .primary { padding:10px 12px; font-size:10px; }
+  .text-button { border:0; background:transparent; color:var(--muted); font-size:10px; font-weight:850; cursor:pointer; padding:8px; }
+  .text-button:hover { color:var(--red); }
+  kbd { display:inline-grid; place-items:center; min-width:21px; height:21px; margin:0 2px; padding:0 5px; border:1px solid rgba(29,52,69,.25); border-bottom-width:2px; border-radius:5px; background:#fffdf7; color:var(--ink); font:800 10px var(--body); }
+  .journey-caption { color:var(--muted); font-size:10px; line-height:1.5; margin:0 0 12px; }
+  .score-journey { display:grid; gap:8px; }
+  .journey-row { display:grid; grid-template-columns:34px 1fr; gap:10px; align-items:center; }
+  .journey-index { font-family:var(--display); font-size:17px; color:var(--muted); }
+  .journey-bars { display:grid; gap:4px; }
+  .journey-track { height:6px; overflow:hidden; border-radius:99px; background:#E8E5DB; }
+  .journey-fill { height:100%; border-radius:99px; transition:width .35s ease; }
+  .profit-dot,.journey-fill.metric-profit { background:var(--coral); }.planet-dot,.journey-fill.metric-planet { background:var(--blue); }.people-dot,.journey-fill.metric-people { background:#7FA58F; }
+  .journey-legend { display:flex; flex-wrap:wrap; gap:14px; margin-top:13px; color:var(--muted); font-size:9px; font-weight:850; }
+  .journey-legend span { display:flex; align-items:center; gap:5px; }.legend-dot { width:8px; height:8px; display:inline-block; border-radius:50%; }
+  .leaderboard-list { display:grid; gap:7px; margin:0; padding-left:22px; color:var(--ink); }
+  .leaderboard-list li { padding:7px 9px; border-radius:7px; background:var(--cream); font-size:10px; }
+  .leaderboard-list li strong { float:right; font-family:var(--display); font-size:16px; }
+  .empty-board { list-style:none; margin-left:-22px; color:var(--muted); font-size:10px; }
+  @media (max-width:850px) { .choices { grid-template-columns:1fr 1fr; } .choice { min-height:205px; } }
+  @media (max-width:680px) {
+    .shell { padding:15px 13px 35px; } header { align-items:flex-start; } .top-pill { font-size:8px; padding:8px; }
+    .hero { display:block; padding-top:26px; } .round-chip { display:inline-block; margin-top:16px; }
+    .dashboard { grid-template-columns:1fr; gap:8px; } .meter { padding:12px 14px; }
+    .start-panel { grid-template-columns:1fr; } .start-art { min-height:230px; }
+    .profile-grid { grid-template-columns:1fr; }.profile-grid .wide { grid-column:auto; }
+    .tutorial-layout { grid-template-columns:1fr; gap:20px; }.tutorial-visual { min-height:190px; }
+    .tutorial-visual:before { width:170px;height:170px; }.tutorial-visual:after { width:125px;height:125px; }
+    .tutorial-symbol { font-size:60px; }.tutorial-actions { flex-wrap:wrap; }.tutorial-actions button { flex:1;min-width:0; }
+    .transition-screen { min-height:390px; }.loading-content { padding:35px 17px; }
+    .choices { grid-template-columns:1fr; } .choice { min-height:0; }
+    .footer-row { align-items:stretch; flex-direction:column; } .footer-row button { width:100%; }
+    .final-grid { grid-template-columns:1fr 1fr 1fr; gap:6px; } .final-stat { padding:12px 5px; }.final-stat strong { font-size:36px; }.final-stat span { font-size:8px; }.final-stat .score-mood { font-size:23px; }
+    .final-extra { grid-template-columns:1fr; }.progress-label { font-size:8px; }
+    .resume-panel { align-items:flex-start; flex-direction:column; }.resume-actions { width:100%; }.resume-actions .primary { flex:1; }
+    .leaderboard-list li strong { font-size:14px; }
+  }
+  @media print {
+    body { background:white; }.shell { max-width:none; padding:0; }.top-pill, .footer-row button, #startScreen, #gameScreen, #dashboard, .note { display:none!important; }
+    #finalScreen { display:block!important; box-shadow:none; border:0; }.print-only { display:block; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="brand"><div class="brand-mark">✳</div><div><small>Business ethics simulator</small><strong>THE TYCOON PROJECT</strong></div></div>
+    <div class="top-pill">CSR LAB · STRATEGY GAME</div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">PEOPLE · PLANET · PROFIT</div>
+      <h1>Ethical Supply Chain<br><span class="highlight">Tycoon.</span></h1>
+      <p class="sub">Build a company people can believe in. Make tough calls across sourcing, labor, energy, transport and product design. Every decision leaves a footprint.</p>
+    </div>
+    <div class="round-chip" id="roundChip">WELCOME, CEO</div>
+  </section>
+
+  <section id="dashboard" class="dashboard hidden" aria-label="Company performance dashboard">
+    <div class="meter"><div class="meter-top"><span class="meter-name">💰 Profit health</span><span class="meter-icon">↗</span></div><div class="meter-value" id="profitValue">65</div><div class="meter-note">Financial resilience · points</div><div class="track"><div class="fill" id="profitBar"></div></div><div class="zone"><span>AT RISK</span><span>HEALTHY</span><span>100</span></div></div>
+    <div class="meter"><div class="meter-top"><span class="meter-name">🌍 Planet health</span><span class="meter-icon">♧</span></div><div class="meter-value" id="planetValue">65</div><div class="meter-note">Environmental responsibility · points</div><div class="track"><div class="fill" id="planetBar"></div></div><div class="zone"><span>AT RISK</span><span>HEALTHY</span><span>100</span></div></div>
+    <div class="meter"><div class="meter-top"><span class="meter-name">🤝 People & ethics</span><span class="meter-icon">♡</span></div><div class="meter-value" id="peopleValue">65</div><div class="meter-note">Worker rights and stakeholder trust · points</div><div class="track"><div class="fill" id="peopleBar"></div></div><div class="zone"><span>AT RISK</span><span>HEALTHY</span><span>100</span></div></div>
+  </section>
+
+  <section id="startScreen" class="panel start-panel">
+    <div>
+      <div class="step-kicker">YOUR MISSION STARTS HERE</div>
+      <h2>You're the new CEO.</h2>
+      <p class="scenario">Your board has given you one product launch and a supply chain to build. You will face <strong>10 decisions</strong>, including two surprise crises. Keep all three meters out of the danger zone. There is no perfect shortcut: every choice has a trade-off.</p>
+      <div class="profile-grid">
+        <div>
+          <label class="name-label" for="playerName">Your name</label>
+          <input id="playerName" maxlength="26" placeholder="e.g. Alex" autocomplete="given-name" required />
+        </div>
+        <div>
+          <label class="name-label" for="companyName">Company name</label>
+          <input id="companyName" maxlength="26" placeholder="e.g. NovaWorks" value="NovaWorks" required />
+        </div>
+        <div class="wide">
+          <label class="name-label" for="companyType">Company service / type</label>
+          <input id="companyType" maxlength="55" placeholder="e.g. Consumer electronics, food & beverage, fashion" required />
+        </div>
+      </div>
+      <label class="name-label">Choose the product you are launching</label>
+      <div class="select-product">
+        <button class="product active" data-product="Smartphone">📱 Smartphone</button>
+        <button class="product" data-product="Coffee brand">☕ Coffee brand</button>
+        <button class="product" data-product="Sneakers">👟 Sneakers</button>
+        <button class="product" data-product="Headphones">🎧 Headphones</button>
+      </div>
+      <button class="primary" id="startBtn" type="button">Launch my company ↗</button>
+      <p class="profile-note">Your details will appear in your CEO briefing and final board report. Then you'll get a short animated orientation before the first decision.</p>
+      <div id="resumePanel" class="resume-panel hidden" aria-live="polite">
+        <div><strong>↻ A saved company was found</strong><p id="resumeMeta">Continue your previous run from where you left off.</p></div>
+        <div class="resume-actions"><button class="primary" id="resumeBtn" type="button">Resume run ↗</button><button class="text-button" id="discardSaveBtn" type="button">Discard</button></div>
+      </div>
+      <p class="hint" style="margin:13px 0 0">PLAY TIME · ABOUT 5–7 MINUTES · NO INTERNET REQUIRED</p>
+    </div>
+    <div class="start-art" aria-hidden="true">
+      <span class="float f1">PEOPLE FIRST</span><span class="float f2">PLANET POSITIVE</span><span class="float f3">PROFIT WITH PURPOSE</span>
+      <div class="planet">✳</div><div class="art-caption">MAKE<br>IT MATTER.</div>
+    </div>
+  </section>
+
+  <section id="transitionScreen" class="panel transition-screen hidden" aria-live="polite">
+    <div class="loading-content">
+      <div class="loading-orbit"><div class="loading-core">✳</div></div>
+      <div class="step-kicker" id="loadingKicker">COMPANY SETUP</div>
+      <h2 id="loadingTitle">Building your headquarters...</h2>
+      <p id="loadingMessage">We are preparing your company profile, supply-chain dashboard and first board meeting.</p>
+      <div class="loading-track"><div class="loading-fill" id="loadingFill"></div></div>
+      <div class="loading-bottom"><span id="loadingStatus">INITIALIZING</span><span class="loading-percent" id="loadingPercent">0%</span></div>
+    </div>
+  </section>
+
+  <section id="tutorialScreen" class="panel tutorial-shell hidden">
+    <div class="tutorial-top"><div class="step-kicker">CEO STARTER BRIEFING</div><div class="tutorial-counter" id="tutorialCounter">01 / 04</div></div>
+    <div class="tutorial-progress"><div id="tutorialProgressFill"></div></div>
+    <div id="tutorialPage"></div>
+    <div class="tutorial-actions">
+      <button class="secondary" type="button" id="tutorialBack" disabled>← Back</button>
+      <div class="right-actions"><button class="primary" type="button" id="tutorialNext">Next →</button></div>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="hidden">
+    <div class="company-stamp" id="companyStamp"></div>
+    <div class="progress-wrap"><div class="progress" id="progressDots"></div><div class="progress-label" id="progressLabel">DECISION 1 OF 10</div></div>
+    <div class="panel">
+      <div class="round-meta"><div class="step-kicker" id="stepKicker">ROUND 01 · SOURCING</div><div class="round-type" id="roundType">STRATEGY DECISION</div></div>
+      <h2 id="stepTitle">Where will you source your materials?</h2>
+      <p class="scenario" id="stepScenario"></p>
+      <div class="stakeholders" id="stakeholders"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+      <div class="footer-row"><div class="hint" id="stepHint">Choose carefully. Your decision changes the company dashboard.</div><button class="primary hidden" type="button" id="continueBtn">Continue →</button></div>
+    </div>
+  </section>
+
+  <section id="finalScreen" class="panel hidden">
+    <div class="step-kicker">PRODUCT LAUNCH COMPLETE · BOARD REPORT</div>
+    <h2 id="finalTitle">Your company report</h2>
+    <p class="scenario" id="finalIntro"></p>
+    <div class="overall-score"><div><div class="score-caption">Overall CSR performance</div><div class="score-total" id="overallScore">0 / 100</div></div><div class="overall-mood" id="overallMood" aria-label="Overall company mood">😐</div></div>
+    <div class="final-grid">
+      <div class="final-stat"><div class="score-line"><strong id="finalProfit">0</strong><span class="score-mood" id="profitMood">😐</span></div><span>💰 PROFIT</span></div>
+      <div class="final-stat"><div class="score-line"><strong id="finalPlanet">0</strong><span class="score-mood" id="planetMood">😐</span></div><span>🌍 PLANET</span></div>
+      <div class="final-stat"><div class="score-line"><strong id="finalPeople">0</strong><span class="score-mood" id="peopleMood">😐</span></div><span>🤝 PEOPLE</span></div>
+    </div>
+    <div id="verdict" class="verdict"></div>
+    <p class="scenario" id="verdictText"></p>
+    <div class="final-extra">
+      <div class="insight"><strong>What went well</strong><p id="strengthText"></p></div>
+      <div class="insight"><strong>What to improve next</strong><p id="improveText"></p></div>
+    </div>
+    <div class="report"><h3>YOUR SUPPLY CHAIN DECISIONS</h3><div id="decisionReport"></div></div>
+    <div class="badge-strip" id="badges"></div>
+    <div class="report journey-report"><h3>YOUR CSR JOURNEY</h3><p class="journey-caption">See how each decision changed your three business pillars.</p><div id="scoreJourney" class="score-journey"></div><div class="journey-legend"><span><i class="legend-dot profit-dot"></i> Profit</span><span><i class="legend-dot planet-dot"></i> Planet</span><span><i class="legend-dot people-dot"></i> People</span></div></div>
+    <div class="report leaderboard-report"><h3>🏆 HALL OF FAME · THIS DEVICE</h3><p class="journey-caption">Top local runs on this computer. Scores are stored only in this browser.</p><ol id="leaderboardList" class="leaderboard-list"></ol></div>
+    <div class="footer-row"><div class="hint">CSR is not a one-time donation. It is responsibility built into everyday business decisions.</div><div style="display:flex;gap:9px;flex-wrap:wrap"><button class="secondary" type="button" id="copyBtn">Copy score ↗</button><button class="secondary" type="button" id="printBtn">Print report ↗</button><button class="primary" type="button" id="restartBtn">Play again ↻</button></div></div>
+    <p class="hint print-only">Ethical Supply Chain Tycoon · Classroom learning simulation</p>
+  </section>
+  <p class="note">Game scores are illustrative learning points, not real financial or environmental measurements. Audits, renewable energy and sustainable materials reduce risks but do not guarantee zero impact. Real supply chains require ongoing monitoring.</p>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const decisions = [
+    {
+      kicker:'ROUND 01 · RAW MATERIALS', type:'STRATEGY DECISION', title:'Who supplies your raw materials?',
+      scenario:'Your new product needs metals, fibers or farm-grown ingredients. A low-cost broker can deliver quickly, but provides little information about where materials come from. A verified supplier costs more and shares audit records.',
+      stakeholders:['Workers','Local communities','Shareholders'],
+      options:[
+        {name:'Buy from the cheapest broker',tag:'FAST SAVINGS',tagClass:'cost',description:'Accept the lowest quote and rely on the broker’s verbal promise about working conditions.',effects:[['Profit','+13'],['Planet','−13'],['People','−18']],delta:[13,-13,-18],feedback:'The low quote protects cash today, but weak traceability makes it harder to detect unsafe work, unfair pay or damaging extraction. Cheap sourcing can transfer hidden costs to workers and communities.'},
+        {name:'Choose an audited supplier',tag:'TRACEABLE SOURCING',tagClass:'smart',description:'Pay more for supplier checks, material traceability and stronger labor standards.',effects:[['Profit','−7'],['Planet','+8'],['People','+17']],delta:[-7,8,17],feedback:'Audits and traceability help you identify risks and demand corrective action. Certification is not a guarantee, so keep checking suppliers over time.'},
+        {name:'Build a local supplier partnership',tag:'LONG-TERM PLAY',tagClass:'smart',description:'Sign a longer contract with a local supplier and fund training to improve standards.',effects:[['Profit','−3'],['Planet','+13'],['People','+14']],delta:[-3,13,14],feedback:'A long-term partnership can improve livelihoods and traceability while reducing transport needs. It takes investment and regular monitoring to make the partnership work.'}
+      ]
+    },
+    {
+      kicker:'ROUND 02 · WORKING CONDITIONS', type:'PEOPLE FIRST', title:'A supplier offers a very low labor cost. Now what?',
+      scenario:'Your production partner can meet the deadline only by using extended shifts. Workers report that overtime is not always voluntary. Your buyer team says switching factories could delay launch.',
+      stakeholders:['Factory workers','Customers','Your brand'],
+      options:[
+        {name:'Accept the low-cost contract',tag:'PROTECT THE DEADLINE',tagClass:'risk',description:'Keep the supplier and focus on delivery. Ask the factory to handle worker concerns internally.',effects:[['Profit','+10'],['Planet','0'],['People','−23']],delta:[10,0,-23],feedback:'You protect the launch schedule, but ignoring worker concerns increases the risk of exploitation, burnout and reputational harm. A company has a responsibility to check labor conditions, not look away.'},
+        {name:'Require fair-work standards',tag:'WORKER PROTECTION',tagClass:'smart',description:'Set limits on working hours, require fair pay and create a safe channel for worker complaints.',effects:[['Profit','−7'],['Planet','0'],['People','+21']],delta:[-7,0,21],feedback:'Fair pay, safe hours and a real grievance process respect worker dignity. Your costs may rise, but the decision supports a more reliable and responsible supply chain.'},
+        {name:'Share the cost of improvement',tag:'PARTNER TO IMPROVE',tagClass:'smart',description:'Co-fund better staffing and safety training, then review progress with worker representatives.',effects:[['Profit','−4'],['Planet','0'],['People','+17']],delta:[-4,0,17],feedback:'Instead of simply abandoning the supplier, you help make improvements and involve workers in monitoring them. This requires transparent targets and follow-up.'}
+      ]
+    },
+    {
+      kicker:'ROUND 03 · FACTORY ENERGY', type:'PLANET DECISION', title:'How will your factory get its power?',
+      scenario:'Your manufacturer offers a coal-heavy electricity contract at a lower rate. A renewable electricity plan requires investment and careful planning, but can reduce operational emissions.',
+      stakeholders:['Nearby residents','Climate','Investors'],
+      options:[
+        {name:'Choose the coal-heavy grid',tag:'LOWER ENERGY BILL',tagClass:'cost',description:'Use the cheaper energy mix and keep more money available for marketing and expansion.',effects:[['Profit','+12'],['Planet','−22'],['People','−2']],delta:[12,-22,-2],feedback:'The lower bill supports short-term profit, but fossil-fuel electricity generally has a higher emissions footprint. Nearby communities can also face air-quality impacts.'},
+        {name:'Switch to renewable power',tag:'CLEANER OPERATIONS',tagClass:'smart',description:'Pay a higher initial cost for a renewable electricity supply where reliable and available.',effects:[['Profit','−8'],['Planet','+22'],['People','+3']],delta:[-8,22,3],feedback:'Renewable electricity can substantially reduce operational emissions compared with coal-heavy power. Check the actual energy mix and supplier claims rather than relying on a green label.'},
+        {name:'Use a transition energy plan',tag:'PRACTICAL TRANSITION',tagClass:'smart',description:'Improve efficiency first, then increase renewable electricity as the factory upgrades.',effects:[['Profit','−3'],['Planet','+13'],['People','+1']],delta:[-3,13,1],feedback:'Efficiency improvements can reduce waste immediately while a gradual renewable transition is put in place. Set a measurable timeline so the plan does not become an empty promise.'}
+      ]
+    },
+    {
+      kicker:'SURPRISE CRISIS 01 · WHISTLEBLOWER', type:'⚡ SUPPLY CHAIN ALERT', twist:true, title:'A worker sends an anonymous warning.',
+      scenario:'A message reaches your ethics hotline alleging unsafe conditions at one of your suppliers. The report is not yet verified, but production is due to ship tomorrow. Your board wants a fast answer.',
+      stakeholders:['Workers','Supplier','Customers'],
+      options:[
+        {name:'Pause and investigate independently',tag:'TAKE THE REPORT SERIOUSLY',tagClass:'smart',description:'Protect workers from retaliation, arrange an independent review and pause affected production if needed.',effects:[['Profit','−7'],['Planet','0'],['People','+19']],delta:[-7,0,19],feedback:'You protect the reporting worker and seek facts before deciding. Independent investigation and corrective action are stronger than dismissing a concern or assuming the supplier is guilty.'},
+        {name:'Ask the supplier to self-check',tag:'KEEP PRODUCTION MOVING',tagClass:'cost',description:'Request a written assurance from the factory and continue shipping unless proof appears.',effects:[['Profit','+5'],['Planet','0'],['People','−10']],delta:[5,0,-10],feedback:'A supplier statement may be useful, but it is not independent evidence. The company should verify serious allegations and protect workers who raise concerns.'},
+        {name:'Ignore the message',tag:'AVOID THE DELAY',tagClass:'risk',description:'Treat the message as a rumor and keep the shipment on schedule.',effects:[['Profit','+8'],['Planet','0'],['People','−20']],delta:[8,0,-20],feedback:'Ignoring a credible warning leaves workers exposed and can make the company responsible for preventable harm. Responsible leadership requires due diligence and a safe reporting process.'}
+      ]
+    },
+    {
+      kicker:'ROUND 05 · WATER & WASTE', type:'PLANET DECISION', title:'Your factory is using too much water.',
+      scenario:'The factory is located in a region where water is becoming scarce. More production means more water demand and wastewater. Community leaders have asked local businesses to reduce use.',
+      stakeholders:['Local community','Ecosystems','Factory staff'],
+      options:[
+        {name:'Keep current water practices',tag:'NO EXTRA INVESTMENT',tagClass:'cost',description:'Maintain production as usual and meet only the minimum requirements.',effects:[['Profit','+8'],['Planet','−17'],['People','−8']],delta:[8,-17,-8],feedback:'Doing only the minimum may reduce immediate expenses, but excessive water use can worsen local scarcity and damage community trust.'},
+        {name:'Install water recycling systems',tag:'CIRCULAR PRODUCTION',tagClass:'smart',description:'Invest in treatment and reuse systems to lower freshwater demand and reduce wastewater.',effects:[['Profit','−7'],['Planet','+20'],['People','+9']],delta:[-7,20,9],feedback:'Water recycling can reduce freshwater withdrawals and wastewater discharge. Monitor water quality and actual savings to make sure the system delivers what you promised.'},
+        {name:'Set a shared water plan',tag:'COMMUNITY PARTNERSHIP',tagClass:'smart',description:'Work with local authorities and residents on water targets, monitoring and replenishment projects.',effects:[['Profit','−4'],['Planet','+13'],['People','+14']],delta:[-4,13,14],feedback:'Working with the community helps balance business needs with local access. A credible plan should prioritize reducing the factory’s own demand before making public pledges.'}
+      ]
+    },
+    {
+      kicker:'ROUND 06 · TRANSPORT', type:'PLANET DECISION', title:'How will you move products to market?',
+      scenario:'Your launch date is approaching. Air freight is fast but emissions-intensive. Sea and rail are slower, while better forecasting and consolidated shipments can make lower-impact transport more practical.',
+      stakeholders:['Customers','Climate','Logistics partners'],
+      options:[
+        {name:'Ship everything by air',tag:'FASTEST DELIVERY',tagClass:'cost',description:'Pay for express shipping to get products into stores quickly and avoid missing launch day.',effects:[['Profit','+5'],['Planet','−17'],['People','0']],delta:[5,-17,0],feedback:'Air freight can solve an urgent delivery problem, but routine use usually carries a much higher transport emissions footprint than slower freight modes.'},
+        {name:'Use sea and rail freight',tag:'LOWER-IMPACT ROUTE',tagClass:'smart',description:'Plan further ahead and move most shipments by sea or rail where routes allow.',effects:[['Profit','+1'],['Planet','+15'],['People','0']],delta:[1,15,0],feedback:'Slower freight modes generally produce fewer emissions per unit transported. Better planning helps avoid the need for last-minute air shipments.'},
+        {name:'Consolidate and optimize loads',tag:'SMART LOGISTICS',tagClass:'smart',description:'Combine orders, reduce empty space and use lower-emission routes for the main shipment.',effects:[['Profit','−2'],['Planet','+18'],['People','+1']],delta:[-2,18,1],feedback:'Consolidating shipments can reduce unnecessary trips and wasted capacity. Track delivery performance and emissions together so one goal does not hide the other.'}
+      ]
+    },
+    {
+      kicker:'ROUND 07 · PACKAGING', type:'DESIGN DECISION', title:'What happens after customers open the box?',
+      scenario:'Your product needs protective packaging. Cheap single-use plastic is easy to source. Recycled paper, reusable packs and plant-based materials have different costs and end-of-life requirements.',
+      stakeholders:['Customers','Waste workers','Environment'],
+      options:[
+        {name:'Use standard plastic wrap',tag:'LOWEST COST',tagClass:'cost',description:'Keep packaging light and cheap, but rely on customers and local systems to dispose of it properly.',effects:[['Profit','+9'],['Planet','−18'],['People','−1']],delta:[9,-18,-1],feedback:'Single-use plastic can be difficult to collect and recycle, especially when mixed materials are used. The low purchase price does not include the full waste burden.'},
+        {name:'Switch to recycled paper',tag:'RECYCLED MATERIAL',tagClass:'smart',description:'Use recycled, recyclable paper packaging and clearly explain local disposal guidance.',effects:[['Profit','−3'],['Planet','+12'],['People','+1']],delta:[-3,12,1],feedback:'Recycled paper can reduce demand for virgin material, but protectiveness, sourcing and recycling access still matter. Choose packaging that fits the product and local waste system.'},
+        {name:'Offer reusable packaging',tag:'REUSE MODEL',tagClass:'smart',description:'Create a return or refill system with a small customer deposit and convenient collection points.',effects:[['Profit','−6'],['Planet','+19'],['People','+4']],delta:[-6,19,4],feedback:'Reuse can reduce single-use waste when customers can conveniently return packaging and it is cleaned and used many times. Design the return system before claiming it is circular.'}
+      ]
+    },
+    {
+      kicker:'SURPRISE CRISIS 02 · ONLINE BACKLASH', type:'⚡ REPUTATION ALERT', twist:true, title:'Your eco-friendly ad is going viral—for the wrong reason.',
+      scenario:'A customer group challenges your company’s claim that the product is “100% planet-safe.” Your marketing team cannot produce evidence for the claim. A response is needed before the story spreads.',
+      stakeholders:['Customers','Regulators','Your employees'],
+      options:[
+        {name:'Pause the ad and publish evidence',tag:'TRANSPARENCY FIRST',tagClass:'smart',description:'Withdraw the unsupported claim, publish verified facts and explain what still needs improvement.',effects:[['Profit','−4'],['Planet','+4'],['People','+17']],delta:[-4,4,17],feedback:'You correct the claim and rebuild trust through evidence. Honest communication means being clear about both progress and limitations—not pretending a product has zero impact.'},
+        {name:'Change the wording only',tag:'QUICK PR RESPONSE',tagClass:'cost',description:'Replace “100% planet-safe” with softer green language without checking the underlying data.',effects:[['Profit','+2'],['Planet','−2'],['People','−8']],delta:[2,-2,-8],feedback:'Softer wording does not solve the evidence problem. Environmental claims should be specific, accurate and supported by reliable information.'},
+        {name:'Blame the advertising agency',tag:'SHIFT RESPONSIBILITY',tagClass:'risk',description:'Say the agency created the claim and leave the campaign running while the teams argue.',effects:[['Profit','−1'],['Planet','−2'],['People','−14']],delta:[-1,-2,-14],feedback:'A company remains responsible for claims made on its behalf. Blaming a contractor without correcting the public message avoids accountability.'}
+      ]
+    },
+    {
+      kicker:'ROUND 09 · PRODUCT LIFESPAN', type:'LONG-TERM THINKING', title:'Should your product be easy to repair?',
+      scenario:'Your design team can make the product thinner and cheaper by sealing the battery and using glued components. A modular design costs more but allows parts to be replaced and the product to last longer.',
+      stakeholders:['Customers','Repair businesses','Environment'],
+      options:[
+        {name:'Choose sealed, hard-to-repair design',tag:'LOWER BUILD COST',tagClass:'cost',description:'Reduce assembly time and encourage customers to replace the product when a component fails.',effects:[['Profit','+10'],['Planet','−13'],['People','−7']],delta:[10,-13,-7],feedback:'A hard-to-repair product may increase replacement sales, but it can create more electronic waste and frustrate customers. Short-term sales are not the whole lifecycle cost.'},
+        {name:'Design for repair',tag:'BUILT TO LAST',tagClass:'smart',description:'Use replaceable parts, repair guides and accessible spare components.',effects:[['Profit','−5'],['Planet','+15'],['People','+12']],delta:[-5,15,12],feedback:'Repairable design can extend product life, reduce waste and give customers more control. It may require more upfront design work and a reliable spare-parts plan.'},
+        {name:'Create a take-back programme',tag:'RECOVER & REUSE',tagClass:'smart',description:'Offer collection, refurbishment or responsible recycling for products at end of life.',effects:[['Profit','−3'],['Planet','+17'],['People','+6']],delta:[-3,17,6],feedback:'A take-back programme helps recover materials and manage end-of-life products. Make returns convenient and use qualified recycling partners with transparent processes.'}
+      ]
+    },
+    {
+      kicker:'ROUND 10 · ACCOUNTABILITY', type:'FINAL BOARD DECISION', title:'What will you tell the public about your impact?',
+      scenario:'The launch is complete. Investors, customers and employees want to know how the product was made. You can publish a measured impact report, share only positive headlines or make ambitious claims without full evidence.',
+      stakeholders:['All stakeholders','Investors','Customers'],
+      options:[
+        {name:'Publish a transparent impact report',tag:'SHOW THE FULL PICTURE',tagClass:'smart',description:'Share measured progress, supplier standards, unresolved issues and specific next steps.',effects:[['Profit','−3'],['Planet','+7'],['People','+13']],delta:[-3,7,13],feedback:'Transparent reporting builds accountability. Include both achievements and gaps, use measurable targets and explain how progress will be checked.'},
+        {name:'Publish only the good news',tag:'POLISHED STORY',tagClass:'cost',description:'Highlight donations and renewable energy while leaving out difficult supply-chain issues.',effects:[['Profit','+4'],['Planet','−3'],['People','−8']],delta:[4,-3,-8],feedback:'Selective reporting can mislead stakeholders by hiding important impacts. CSR communication should not replace honest disclosure of material problems.'},
+        {name:'Make bold claims without proof',tag:'HYPE THE LAUNCH',tagClass:'risk',description:'Promise a fully ethical and zero-impact product even though the supply chain has not been fully checked.',effects:[['Profit','+7'],['Planet','−7'],['People','−16']],delta:[7,-7,-16],feedback:'Unsupported claims are misleading and can undermine trust. No complex product has literally zero impact; make specific claims that evidence can support.'}
+      ]
+    }
+  ];
+
+  let scores = {profit:65, planet:65, people:65};
+  let round = 0;
+  let selectedProduct = 'Smartphone';
+  let player = '';
+  let company = 'NovaWorks';
+  let companyType = '';
+  let history = [];
+  let hasChosen = false;
+  let tutorialIndex = 0;
+  let loadingTimer = null;
+  let selectedChoiceIndex = null;
+  const SAVE_KEY = 'csrTycoonSavedRun_v2';
+  const BOARD_KEY = 'csrTycoonHallOfFame_v1';
+
+  document.querySelectorAll('.product').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.product').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedProduct = btn.dataset.product;
+  }));
+
+  function clamp(n) { return Math.max(0, Math.min(100, n)); }
+  function colorFor(value) { return value < 40 ? 'var(--red)' : value < 60 ? 'var(--amber)' : 'var(--green)'; }
+  function moodFor(value) {
+    if (value >= 85) return '😁';
+    if (value >= 70) return '😊';
+    if (value >= 55) return '😐';
+    if (value >= 40) return '😒';
+    if (value >= 25) return '😓';
+    return '😫';
+  }
+  const tutorialPages = [
+    {eyebrow:'01 · YOUR NEW ROLE',title:'You are the CEO now.',symbol:'🧑‍💼',label:'THE BIG BOSS',body:'',points:['You are responsible for the whole supply chain, not just the final product.','Your choices affect real people, the planet and the company’s long-term success.']},
+    {eyebrow:'02 · THE THREE METERS',title:'Keep three forces in balance.',symbol:'⚖️',label:'PEOPLE · PLANET · PROFIT',body:'Your dashboard tracks three pillars. A strong company does not let one pillar thrive while the others collapse.',points:['PROFIT 💰 — financial health and business resilience.','PLANET 🌍 — pollution, energy, materials and waste.','PEOPLE 🤝 — worker rights, safety, fairness and community trust.']},
+    {eyebrow:'03 · HOW TO PLAY',title:'Every choice has a trade-off.',symbol:'🎯',label:'10 DECISIONS AHEAD',body:'You will face 10 supply-chain decisions. Read the situation, compare all three options and choose the response you think is most responsible.',points:['Each option changes one or more meters. Scores move between 0 and 100.','After choosing, read the boardroom consequence to understand who benefits and who carries the cost.']},
+    {eyebrow:'04 · EXPECT THE UNEXPECTED',title:'Can you lead under pressure?',symbol:'⚡',label:'CRISES · CONSEQUENCES · RESULTS',body:'Surprise events will test your leadership. A supplier may be accused of unsafe work, customers may question your claims, or a budget problem may appear.',points:['Keep all three meters out of the red zone — balance matters more than a perfect score in one area.','At the end, your board report reveals your CSR rating, strongest pillar and what needs improvement.']}
+  ];
+  function renderTutorial() {
+    tutorialPages[0].body = `Welcome, ${escapeHtml(player || 'CEO')}! You are leading ${escapeHtml(company || 'your company')} — a ${escapeHtml(companyType || 'new business')} business launching a ${escapeHtml(selectedProduct.toLowerCase())} product. Your decisions will shape the company’s future.`;
+    const page = tutorialPages[tutorialIndex];
+    $('tutorialCounter').textContent = `${String(tutorialIndex+1).padStart(2,'0')} / ${String(tutorialPages.length).padStart(2,'0')}`;
+    $('tutorialProgressFill').style.width = `${((tutorialIndex+1)/tutorialPages.length)*100}%`;
+    $('tutorialPage').innerHTML = `<div class="tutorial-layout"><div class="tutorial-visual"><div class="tutorial-symbol">${page.symbol}</div><div class="tutorial-visual-label">${page.label}</div></div><div class="tutorial-copy"><div class="step-kicker">${page.eyebrow}</div><h2>${page.title}</h2><p>${page.body}</p><div class="tutorial-points">${page.points.map((point,i)=>`<div class="tutorial-point"><b>${i+1}</b><span>${point}</span></div>`).join('')}</div></div></div>`;
+    $('tutorialBack').disabled = tutorialIndex === 0;
+    $('tutorialNext').textContent = tutorialIndex === tutorialPages.length-1 ? 'Start my first challenge ↗' : 'Next →';
+    const copy = $('tutorialPage').querySelector('.tutorial-copy');
+    if (copy) { copy.style.animation='none'; void copy.offsetWidth; copy.style.animation=''; }
+  }
+  function showOnly(screenId) {
+    ['startScreen','transitionScreen','tutorialScreen','gameScreen','finalScreen'].forEach(id => $(id).classList.add('hidden'));
+    $(screenId).classList.remove('hidden');
+  }
+  function runLoading(mode, onComplete) {
+    if (loadingTimer) clearInterval(loadingTimer);
+    $('dashboard').classList.add('hidden');
+    showOnly('transitionScreen');
+    const isResult = mode === 'result';
+    const stages = isResult
+      ? [
+          ['AUDITING YOUR DECISIONS','Reviewing every supplier, labor, energy and packaging choice...'],
+          ['MEASURING YOUR IMPACT','Balancing financial health, environmental responsibility and worker welfare...'],
+          ['CALCULATING YOUR CSR SCORE','Checking the strongest and weakest pillars in your company...'],
+          ['PREPARING THE BOARD REPORT','Your results are ready. The board is waiting.']
+        ]
+      : [
+          ['SETTING UP HEADQUARTERS','Creating your CEO profile and company workspace...'],
+          ['BUILDING YOUR SUPPLY CHAIN','Mapping suppliers, workers, factories and customers...'],
+          ['CALIBRATING THE IMPACT METERS','Preparing Profit, Planet and People performance tracking...'],
+          ['BRIEFING THE CEO','Your first board meeting is almost ready.']
+        ];
+    $('loadingKicker').textContent = isResult ? 'FINAL AUDIT · BOARD REPORT' : 'COMPANY LAUNCH · INITIALIZATION';
+    $('loadingTitle').textContent = isResult ? 'Calculating your impact...' : 'Building your company...';
+    $('loadingFill').style.width = '0%';
+    $('loadingPercent').textContent = '0%';
+    $('loadingStatus').textContent = isResult ? 'FINAL AUDIT' : 'INITIALIZING';
+    $('loadingMessage').textContent = stages[0][1];
+    let progress = 0;
+    loadingTimer = setInterval(() => {
+      progress = Math.min(100, progress + (isResult ? 1.35 : 1.6));
+      $('loadingFill').style.width = `${progress}%`;
+      $('loadingPercent').textContent = `${Math.round(progress)}%`;
+      const stageIndex = Math.min(stages.length-1, Math.floor(progress / 25));
+      $('loadingStatus').textContent = stages[stageIndex][0];
+      $('loadingMessage').textContent = stages[stageIndex][1];
+      if (progress >= 100) {
+        clearInterval(loadingTimer); loadingTimer = null;
+        setTimeout(onComplete, 420);
+      }
+    }, isResult ? 25 : 22);
+  }
+  function startGameAfterBriefing() {
+    showOnly('gameScreen');
+    $('dashboard').classList.remove('hidden');
+    $('companyStamp').innerHTML = `<span>CEO <strong>${escapeHtml(player)}</strong></span><span>COMPANY <strong>${escapeHtml(company)}</strong></span><span>${escapeHtml(companyType)}</span>`;
+    $('roundChip').textContent = `CEO ${player.toUpperCase()} · ROUND 1/${decisions.length}`;
+    updateDashboard(); showRound(); saveGame();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function updateDashboard() {
+    [['profit','profitValue','profitBar'],['planet','planetValue','planetBar'],['people','peopleValue','peopleBar']].forEach(([key,valueId,barId]) => {
+      const value = scores[key];
+      $(valueId).textContent = value;
+      $(barId).style.width = value + '%';
+      $(barId).style.background = colorFor(value);
+      $(valueId).style.color = colorFor(value);
+    });
+  }
+  function buildProgress() {
+    $('progressDots').innerHTML = '';
+    decisions.forEach((_,i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i < round ? ' done' : '');
+      dot.setAttribute('aria-hidden','true');
+      $('progressDots').appendChild(dot);
+    });
+  }
+  function showRound() {
+    hasChosen = false;
+    const d = decisions[round];
+    $('roundChip').textContent = `DECISION ${round+1} / ${decisions.length}`;
+    $('progressLabel').textContent = `DECISION ${round+1} OF ${decisions.length}`;
+    $('stepKicker').textContent = d.kicker;
+    $('roundType').textContent = d.type;
+    $('roundType').className = 'round-type' + (d.twist ? ' twist' : '');
+    $('stepTitle').textContent = d.title;
+    $('stepScenario').textContent = d.scenario;
+    $('stakeholders').innerHTML = d.stakeholders.map(s => `<span class="stakeholder">${s}</span>`).join('');
+    $('feedback').classList.remove('show');
+    $('feedback').textContent = '';
+    $('continueBtn').classList.add('hidden');
+    $('stepHint').innerHTML = 'Choose one response. Think about who benefits and who carries the cost. Press <kbd>1</kbd>, <kbd>2</kbd> or <kbd>3</kbd> to choose.';
+    $('choices').innerHTML = '';
+    buildProgress();
+    d.options.forEach((option,index) => {
+      const card = document.createElement('button');
+      card.className = 'choice';
+      card.type = 'button';
+      card.innerHTML = `<span class="choice-no">0${index+1}</span><span class="choice-tag ${option.tagClass}">${option.tag}</span><h3>${option.name}</h3><p>${option.description}</p><div class="effects">${option.effects.map(e => `<span class="effect">${e[0]} ${e[1]}</span>`).join('')}</div>`;
+      card.addEventListener('click', () => choose(option,card,index));
+      $('choices').appendChild(card);
+    });
+  }
+  function choose(option,card,index) {
+    if (hasChosen) return;
+    hasChosen = true;
+    selectedChoiceIndex = index;
+    document.querySelectorAll('.choice').forEach(c => { c.disabled = true; c.classList.remove('chosen'); });
+    card.classList.add('chosen');
+    scores.profit = clamp(scores.profit + option.delta[0]);
+    scores.planet = clamp(scores.planet + option.delta[1]);
+    scores.people = clamp(scores.people + option.delta[2]);
+    updateDashboard();
+    history.push({round:decisions[round].kicker,choice:option.name,feedback:option.feedback,scores:{...scores}});
+    $('feedback').innerHTML = `<strong>BOARDROOM CONSEQUENCE:</strong> ${option.feedback}`;
+    $('feedback').classList.add('show');
+    $('stepHint').textContent = 'Decision saved. Read the consequence, then move to the next challenge. Keyboard: press Enter to continue.';
+    saveGame();
+    $('continueBtn').classList.remove('hidden');
+    $('continueBtn').textContent = round === decisions.length-1 ? 'See my company report ↗' : 'Next challenge →';
+  }
+  function saveGame() {
+    const payload = {version:2,player,company,companyType,selectedProduct,scores,round,history,hasChosen,selectedChoiceIndex};
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(payload)); }
+    catch (error) { /* Private browsing or storage restrictions should never stop a game. */ }
+    refreshResumePanel();
+  }
+  function readSavedGame() {
+    try {
+      const raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      const valid = data && data.version === 2 && typeof data.player === 'string' && typeof data.company === 'string' &&
+        typeof data.companyType === 'string' && Number.isInteger(data.round) && data.round >= 0 && data.round < decisions.length &&
+        data.scores && ['profit','planet','people'].every(k => Number.isFinite(data.scores[k])) && Array.isArray(data.history);
+      return valid ? data : null;
+    } catch (error) { return null; }
+  }
+  function refreshResumePanel() {
+    const data = readSavedGame();
+    if (!data) { $('resumePanel').classList.add('hidden'); return; }
+    $('resumeMeta').textContent = `${data.company} · ${data.player} · Decision ${data.round+1} of ${decisions.length}`;
+    $('resumePanel').classList.remove('hidden');
+  }
+  function discardSavedGame() {
+    try { localStorage.removeItem(SAVE_KEY); } catch (error) {}
+    $('resumePanel').classList.add('hidden');
+  }
+  function resumeSavedGame() {
+    const data = readSavedGame();
+    if (!data) { refreshResumePanel(); return; }
+    player = data.player; company = data.company; companyType = data.companyType;
+    selectedProduct = data.selectedProduct || 'Smartphone';
+    scores = {profit:clamp(data.scores.profit),planet:clamp(data.scores.planet),people:clamp(data.scores.people)};
+    round = data.round; history = data.history; hasChosen = false; selectedChoiceIndex = null;
+    document.querySelectorAll('.product').forEach(btn => btn.classList.toggle('active', btn.dataset.product === selectedProduct));
+    showOnly('gameScreen'); $('dashboard').classList.remove('hidden');
+    $('companyStamp').innerHTML = `<span>CEO <strong>${escapeHtml(player)}</strong></span><span>COMPANY <strong>${escapeHtml(company)}</strong></span><span>${escapeHtml(companyType)}</span>`;
+    updateDashboard(); showRound();
+    if (data.hasChosen && Number.isInteger(data.selectedChoiceIndex) && data.selectedChoiceIndex >= 0 && data.selectedChoiceIndex < decisions[round].options.length) {
+      const option = decisions[round].options[data.selectedChoiceIndex];
+      const card = $('choices').querySelectorAll('.choice')[data.selectedChoiceIndex];
+      hasChosen = true; selectedChoiceIndex = data.selectedChoiceIndex;
+      $('choices').querySelectorAll('.choice').forEach(c => { c.disabled = true; });
+      card.classList.add('chosen');
+      $('feedback').innerHTML = `<strong>BOARDROOM CONSEQUENCE:</strong> ${option.feedback}`;
+      $('feedback').classList.add('show');
+      $('stepHint').textContent = 'Your saved decision is restored. Read the consequence, then continue.';
+      $('continueBtn').classList.remove('hidden');
+      $('continueBtn').textContent = round === decisions.length-1 ? 'See my company report ↗' : 'Next challenge →';
+    }
+    $('roundChip').textContent = `DECISION ${round+1} / ${decisions.length}`;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function saveLeaderboard(average) {
+    try {
+      const board = JSON.parse(localStorage.getItem(BOARD_KEY) || '[]');
+      board.push({player,company,score:average,mood:moodFor(average),date:new Date().toLocaleDateString()});
+      board.sort((a,b)=>b.score-a.score);
+      localStorage.setItem(BOARD_KEY, JSON.stringify(board.slice(0,5)));
+    } catch (error) { /* The report still works when storage is unavailable. */ }
+    renderLeaderboard();
+  }
+  function renderLeaderboard() {
+    let board = [];
+    try { board = JSON.parse(localStorage.getItem(BOARD_KEY) || '[]'); } catch (error) {}
+    const list = $('leaderboardList'); list.innerHTML = '';
+    if (!Array.isArray(board) || board.length === 0) {
+      list.innerHTML = '<li class="empty-board">No completed runs yet. Your score will appear here.</li>'; return;
+    }
+    board.slice(0,5).forEach((entry,index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `${index+1}. ${escapeHtml(entry.player || 'CEO')} · ${escapeHtml(entry.company || 'Company')} <strong>${Math.max(0,Math.min(100,Number(entry.score)||0))}/100 ${escapeHtml(entry.mood || '')}</strong>`;
+      list.appendChild(li);
+    });
+  }
+  function renderScoreJourney() {
+    const host = $('scoreJourney'); host.innerHTML = '';
+    history.forEach((item,index) => {
+      const snapshot = item.scores || {profit:65,planet:65,people:65};
+      const row = document.createElement('div'); row.className = 'journey-row';
+      row.innerHTML = `<span class="journey-index">${String(index+1).padStart(2,'0')}</span><div class="journey-bars">${['profit','planet','people'].map(key => `<div class="journey-track" aria-label="${key} ${clamp(snapshot[key])} out of 100"><div class="journey-fill metric-${key}" style="width:${clamp(snapshot[key])}%"></div></div>`).join('')}</div>`;
+      host.appendChild(row);
+    });
+  }
+  async function copyScoreSummary() {
+    const average = Math.round((scores.profit+scores.planet+scores.people)/3);
+    const summary = `CSR TYCOON RESULT\nCEO: ${player}\nCompany: ${company} (${companyType})\nProduct: ${selectedProduct}\nOverall CSR score: ${average}/100 ${moodFor(average)}\nProfit: ${scores.profit}/100 ${moodFor(scores.profit)}\nPlanet: ${scores.planet}/100 ${moodFor(scores.planet)}\nPeople: ${scores.people}/100 ${moodFor(scores.people)}`;
+    let copied = false;
+    try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(summary); copied = true; } } catch (error) {}
+    if (!copied) {
+      const box = document.createElement('textarea'); box.value = summary; box.setAttribute('readonly','');
+      box.style.position='fixed'; box.style.opacity='0'; document.body.appendChild(box); box.select();
+      try { copied = document.execCommand('copy'); } catch (error) {}
+      box.remove();
+    }
+    $('copyBtn').textContent = copied ? 'Copied ✓' : 'Copy unavailable';
+    setTimeout(() => { if ($('copyBtn')) $('copyBtn').textContent = 'Copy score ↗'; }, 1800);
+  }
+
+  function finish() {
+    showOnly('finalScreen');
+    $('dashboard').classList.add('hidden');
+    $('roundChip').textContent = 'LAUNCH REPORT';
+    $('finalTitle').textContent = `${company}: ${selectedProduct} launch report`;
+    $('finalIntro').textContent = `${player}, as CEO of ${company} (${companyType}), your supply chain has been put to the test. Here is how your decisions affected financial resilience, the environment and people.`;
+    $('finalProfit').textContent = scores.profit;
+    $('finalPlanet').textContent = scores.planet;
+    $('finalPeople').textContent = scores.people;
+    $('profitMood').textContent = moodFor(scores.profit);
+    $('planetMood').textContent = moodFor(scores.planet);
+    $('peopleMood').textContent = moodFor(scores.people);
+    $('finalProfit').style.color = colorFor(scores.profit);
+    $('finalPlanet').style.color = colorFor(scores.planet);
+    $('finalPeople').style.color = colorFor(scores.people);
+    $('decisionReport').innerHTML = `<div class="report-row"><span>CEO</span><strong>${escapeHtml(player)}</strong></div><div class="report-row"><span>COMPANY TYPE</span><strong>${escapeHtml(companyType)}</strong></div>` + history.map((item,i) => `<div class="report-row"><span>${String(i+1).padStart(2,'0')} · ${item.round.replace(/^ROUND \d+ · /,'').replace(/^SURPRISE CRISIS \d+ · /,'CRISIS · ')}</span><strong>${escapeHtml(item.choice)}</strong></div>`).join('');
+    const min = Math.min(scores.profit,scores.planet,scores.people);
+    const average = Math.round((scores.profit+scores.planet+scores.people)/3);
+    $('overallScore').textContent = `${average} / 100`;
+    $('overallMood').textContent = moodFor(average);
+    renderScoreJourney();
+    saveLeaderboard(average);
+    discardSavedGame();
+    let verdict, verdictClass, verdictText;
+    if (min >= 60 && average >= 70) {
+      verdict = `✳ RESPONSIBLE BUSINESS LEADER · ${average}/100`; verdictClass = 'good';
+      verdictText = 'You kept every pillar healthy and built a balanced company. Your choices considered the wider impact of business—not just the immediate price tag. Keep monitoring suppliers and improving over time.';
+    } else if (min >= 40) {
+      verdict = `⚡ THE BALANCING ACT · ${average}/100`; verdictClass = 'mid';
+      verdictText = 'Your company stayed out of the danger zone, but at least one area needs attention. Strong CSR is about balancing profit, planet and people—not maximizing one while ignoring the others.';
+    } else {
+      verdict = `⚠ CSR RED ZONE · ${average}/100`; verdictClass = 'bad';
+      verdictText = 'At least one pillar has been neglected. Review your choices: a business can look profitable while creating hidden costs for workers, communities or the environment. Try again with a longer-term view.';
+    }
+    $('verdict').className = `verdict ${verdictClass}`;
+    $('verdict').textContent = verdict;
+    $('verdictText').textContent = verdictText;
+    const scoreItems = [{name:'Profit',value:scores.profit},{name:'Planet',value:scores.planet},{name:'People & ethics',value:scores.people}];
+    const strongest = [...scoreItems].sort((a,b)=>b.value-a.value)[0];
+    const weakest = [...scoreItems].sort((a,b)=>a.value-b.value)[0];
+    $('strengthText').textContent = `${strongest.name} is your strongest pillar at ${strongest.value}/100. Keep the practices that helped this area strong and share them across the supply chain.`;
+    $('improveText').textContent = `${weakest.name} needs the most attention at ${weakest.value}/100. Set a measurable target, assign an owner and check progress instead of relying on a one-time promise.`;
+    const badgeList = [];
+    if (scores.planet >= 75) badgeList.push('🌱 PLANET PROTECTOR');
+    if (scores.people >= 75) badgeList.push('🤝 PEOPLE ADVOCATE');
+    if (scores.profit >= 75) badgeList.push('📈 SMART OPERATOR');
+    if (min >= 60) badgeList.push('⚖ TRIPLE-BOTTOM-LINE THINKER');
+    if (badgeList.length === 0) badgeList.push('🧭 CSR LEARNER · EVERY RUN IS A NEW CHANCE');
+    $('badges').innerHTML = badgeList.map(b=>`<span class="achievement">${b}</span>`).join('');
+    buildProgress();
+  }
+
+  $('startBtn').addEventListener('click', () => {
+    player = $('playerName').value.trim();
+    company = $('companyName').value.trim();
+    companyType = $('companyType').value.trim();
+    if (!player || !company || !companyType) {
+      const missing = !player ? $('playerName') : !company ? $('companyName') : $('companyType');
+      missing.focus();
+      missing.setCustomValidity('Please complete this field before launching your company.');
+      missing.reportValidity();
+      missing.addEventListener('input', () => missing.setCustomValidity(''), {once:true});
+      return;
+    }
+    scores = {profit:65,planet:65,people:65}; round = 0; history = []; selectedChoiceIndex = null; hasChosen = false;
+    $('dashboard').classList.add('hidden');
+    runLoading('startup', () => {
+      showOnly('tutorialScreen');
+      tutorialIndex = 0;
+      renderTutorial();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  $('tutorialBack').addEventListener('click', () => {
+    if (tutorialIndex > 0) { tutorialIndex--; renderTutorial(); }
+  });
+  $('tutorialNext').addEventListener('click', () => {
+    if (tutorialIndex < tutorialPages.length-1) { tutorialIndex++; renderTutorial(); }
+    else startGameAfterBriefing();
+  });
+  $('continueBtn').addEventListener('click', () => {
+    if (round < decisions.length-1) {
+      round++; selectedChoiceIndex = null; showRound(); saveGame();
+    } else {
+      runLoading('result', finish);
+    }
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('restartBtn').addEventListener('click', () => {
+    scores = {profit:65,planet:65,people:65}; round=0; history=[]; hasChosen=false; selectedChoiceIndex=null; discardSavedGame();
+    showOnly('startScreen'); $('dashboard').classList.add('hidden');
+    $('roundChip').textContent='WELCOME, CEO';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  $('printBtn').addEventListener('click', () => window.print());
+  $('copyBtn').addEventListener('click', copyScoreSummary);
+  $('resumeBtn').addEventListener('click', resumeSavedGame);
+  $('discardSaveBtn').addEventListener('click', discardSavedGame);
+  document.addEventListener('keydown', event => {
+    if ($('gameScreen').classList.contains('hidden') || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.target && event.target.closest && event.target.closest('input,textarea,select,[contenteditable="true"]')) return;
+    if (!hasChosen && ['1','2','3'].includes(event.key)) {
+      const choice = $('choices').querySelectorAll('.choice')[Number(event.key)-1];
+      if (choice) { event.preventDefault(); choice.click(); }
+    } else if (hasChosen && event.key === 'Enter') {
+      event.preventDefault(); $('continueBtn').click();
+    }
+  });
+  refreshResumePanel();
+  renderLeaderboard();
+})();
+</script>
+</body>
+</html>
